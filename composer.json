@@ -1,0 +1,33 @@
+{
+    "name": "trk/luya-theme",
+    "description": "Uikit Theme",
+    "type" : "luya-module",
+    "keywords" : ["uikit", "theme"],
+    "license": "MIT",
+    "homepage" : "https://altivebir.com",
+    "authors": [
+        {
+            "name": "Iskender TOTOĞLU",
+            "email": "iskender@altivebir.com",
+            "homepage" : "https://github.com/trk/luya-theme"
+        }
+    ],
+    "support" : {
+        "issues" : "https://github.com/trk/luya-theme/issues"
+    },
+    "require" : {
+        "luyadev/luya-module-cms": "dev-master",
+        "luyadev/luya-module-admin": "dev-master",
+        "trk/luya-uikit": "dev-master"
+    },
+    "autoload" : {
+        "psr-4" : {
+            "trk\\theme\\" : "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
+}
