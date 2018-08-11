@@ -14,7 +14,7 @@ $attrs_page['class'][] = 'avb-page';
 
 if ($site['layout'] == 'boxed') {
 
-    $attrs_page['class'][] = $site['boxed.alignment'] ? 'uk-margin-auto' : '';
+    $attrs_page['class'][] = $site['boxed_alignment'] ? 'uk-margin-auto' : '';
 
     $attrs_page_container['class'][] = 'avb-page-container';
     $attrs_page_container['class'][] = $site['boxed.padding'] ? 'avb-page-container-padding' : '';
