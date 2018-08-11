@@ -3,3 +3,14 @@
 /.settings/
 /vendor/
 /luya
+
+#IDE: netbeans
+/nbproject
+
+#IDE: PHPStorm
+.idea/
+
+#IDE: eclipse
+.buildpath
+.project
+.settings
