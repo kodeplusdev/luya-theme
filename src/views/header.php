@@ -17,8 +17,8 @@ if ($site['layout'] == 'boxed') {
     $attrs_page['class'][] = $site['boxed_alignment'] ? 'uk-margin-auto' : '';
 
     $attrs_page_container['class'][] = 'avb-page-container';
-    $attrs_page_container['class'][] = $site['boxed.padding'] ? 'avb-page-container-padding' : '';
-    $attrs_page_container['style'][] = $site['boxed.media'] ? "background-image: url('" . Theme::get('appUrl') . $site['boxed_media'] . "');" : '';
+    $attrs_page_container['class'][] = $site['boxed_padding'] ? 'avb-page-container-padding' : '';
+    $attrs_page_container['style'][] = $site['boxed_media'] ? "background-image: url('" . Theme::get('appUrl') . $site['boxed_media'] . "');" : '';
 
 }
 ?>
