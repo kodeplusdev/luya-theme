@@ -29,11 +29,11 @@ if ($site['layout'] == 'boxed') {
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <?php if(Module::getConfig('icons', 'favicon')): ?>
-            <link rel="shortcut icon" href="<?= Module::getConfig('icons', 'favicon') ?>">
+        <?php if($favicon = Module::getConfig('icons', 'favicon')): ?>
+            <link rel="shortcut icon" href="<?= $favicon ?>">
         <?php endif; ?>
-        <?php if(Module::getConfig('icons', 'touchicon')): ?>
-            <link rel="apple-touch-icon-precomposed" href="<?= Module::getConfig('icons', 'touchicon') ?>">
+        <?php if($touch_icon = Module::getConfig('icons', 'touch_icon')): ?>
+            <link rel="apple-touch-icon-precomposed" href="<?= $touch_icon ?>">
         <?php endif; ?>
         <title><?= Module::getConfig('title') ?></title>
         <?php Yii::$app->view->head(); ?>
@@ -56,11 +56,11 @@ if ($site['layout'] == 'boxed') {
 
             <?php if (Module::sidebar('toolbar-left') || Module::sidebar('toolbar-right')) : ?>
             <div class="avb-toolbar uk-visible@<?= $mobile['breakpoint'] ?>">
-                <div class="uk-container uk-flex uk-flex-middle <?= $site['toolbar_fullwidth'] ? 'uk-container-expand' : '' ?> <?= $site['toolbar_center'] ? 'uk-flex-center' : '' ?>">
+                <div class="uk-container uk-flex uk-flex-middle <?= $site['toolbar_full_width'] ? 'uk-container-expand' : '' ?> <?= $site['toolbar_center'] ? 'uk-flex-center' : '' ?>">
 
                     <?php if (Module::sidebar('toolbar-left') || ($site['toolbar_center'] && Module::sidebar('toolbar-right'))) : ?>
                     <div>
-                        <div class="uk-grid-medium uk-child-width-auto uk-flex-middle" uk-grid="margin: uk-margin-small-top">
+                        <div class="uk-grid-medium uk-child-width-auto uk-flex-middle" data-uk-grid="margin: uk-margin-small-top">
                             <?php if (Module::sidebar('toolbar-left')) : ?>
                                 <?php echo Module::sidebar("toolbar-left:cell") ?>
                             <?php endif ?>
@@ -73,7 +73,7 @@ if ($site['layout'] == 'boxed') {
 
                     <?php if (!$site['toolbar_center'] && Module::sidebar('toolbar-right')) : ?>
                     <div class="uk-margin-auto-left">
-                        <div class="uk-grid-medium uk-child-width-auto uk-flex-middle" uk-grid="margin: uk-margin-small-top">
+                        <div class="uk-grid-medium uk-child-width-auto uk-flex-middle" data-uk-grid="margin: uk-margin-small-top">
                             <?php echo Module::sidebar("toolbar-right:cell") ?>
                         </div>
                     </div>
@@ -89,7 +89,7 @@ if ($site['layout'] == 'boxed') {
 
             <?php if (!Module::sidebar('content')) : ?>
 
-            <div id="avb-main" class="avb-main uk-section uk-section-default" uk-height-viewport="expand: true">
+            <div id="avb-main" class="avb-main uk-section uk-section-default" data-uk-height-viewport="expand: true">
                 <div class="uk-container">
 
                     <?php

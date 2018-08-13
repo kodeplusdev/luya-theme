@@ -10,8 +10,8 @@ $navbar = Module::getConfig('navbar');
 
 // Options
 $layout = $header['layout'];
-$fullwidth = $header['fullwidth'];
-$logo_padding_remove = $fullwidth ? $header['logo_padding_remove'] : false;
+$full_width = $header['full_width'];
+$logo_padding_remove = $full_width ? $header['logo_padding_remove'] : false;
 $logo_center = $header['logo_center'];
 $logo = $logo['image'] || $logo['text'];
 $class = array_merge(['avb-header', 'uk-visible@' . $mobile['breakpoint']], isset($class) ? (array) $class : []);
@@ -77,7 +77,7 @@ if (in_array($layout, ['horizontal-left', 'horizontal-center', 'horizontal-right
 
         <div<?= ArrayHelper::attrs($container) ?>>
 
-            <div class="uk-container<?= $fullwidth ? ' uk-container-expand' : '' ?><?= $logo && $logo_padding_remove ? ' uk-padding-remove-left' : '' ?>">
+            <div class="uk-container<?= $full_width ? ' uk-container-expand' : '' ?><?= $logo && $logo_padding_remove ? ' uk-padding-remove-left' : '' ?>">
                 <nav<?= ArrayHelper::attrs($attrs_navbar) ?>>
 
                     <?php if ($logo || $layout == 'horizontal-left' && Module::sidebar('navbar')) : ?>
@@ -131,7 +131,7 @@ if (in_array($layout, ['stacked-center-a', 'stacked-center-b', 'stacked-center-s
 
     <?php if ($logo && $layout != 'stacked-center-split' || $layout == 'stacked-center-a' && Module::sidebar('header')) : ?>
     <div class="avb-headerbar-top">
-        <div class="uk-container<?= $fullwidth ? ' uk-container-expand' : '' ?>">
+        <div class="uk-container<?= $full_width ? ' uk-container-expand' : '' ?>">
 
             <?php if ($logo) : ?>
             <div class="uk-text-center">
@@ -157,7 +157,7 @@ if (in_array($layout, ['stacked-center-a', 'stacked-center-b', 'stacked-center-s
 
             <div<?= ArrayHelper::attrs($container) ?>>
 
-                <div class="uk-container<?= $fullwidth ? ' uk-container-expand' : '' ?>">
+                <div class="uk-container<?= $full_width ? ' uk-container-expand' : '' ?>">
                     <nav<?= ArrayHelper::attrs($attrs_navbar) ?>>
 
                         <div class="uk-navbar-center">
@@ -193,7 +193,7 @@ if (in_array($layout, ['stacked-center-a', 'stacked-center-b', 'stacked-center-s
 
     <?php if (in_array($layout, ['stacked-center-b', 'stacked-center-split']) && Module::sidebar('header')) : ?>
     <div class="avb-headerbar-bottom">
-        <div class="uk-container<?= $fullwidth ? ' uk-container-expand' : '' ?>">
+        <div class="uk-container<?= $full_width ? ' uk-container-expand' : '' ?>">
             <div class="uk-grid-medium uk-child-width-auto uk-flex-center uk-flex-middle" uk-grid>
                 <?php echo Module::sidebar("header:cell") ?>
             </div>
@@ -213,7 +213,7 @@ if ($layout == 'stacked-left-a' || $layout == 'stacked-left-b') : ?>
 
     <?php if ($logo || Module::sidebar('header')) : ?>
     <div class="avb-headerbar-top">
-        <div class="uk-container<?= $fullwidth ? ' uk-container-expand' : '' ?> uk-flex uk-flex-middle">
+        <div class="uk-container<?= $full_width ? ' uk-container-expand' : '' ?> uk-flex uk-flex-middle">
 
             <?= $logo ? Module::render('templates/header-logo') : '' ?>
 
@@ -237,7 +237,7 @@ if ($layout == 'stacked-left-a' || $layout == 'stacked-left-b') : ?>
 
             <div<?= ArrayHelper::attrs($container) ?>>
 
-                <div class="uk-container<?= $fullwidth ? ' uk-container-expand' : '' ?>">
+                <div class="uk-container<?= $full_width ? ' uk-container-expand' : '' ?>">
                     <nav<?= ArrayHelper::attrs($attrs_navbar) ?>>
 
                         <?php if ($layout == 'stacked-left-a') : ?>
@@ -290,7 +290,7 @@ if (preg_match('/^(offcanvas|modal)/', $layout)) :
     <?php endif ?>
 
         <div<?= ArrayHelper::attrs($container) ?>>
-            <div class="uk-container<?= $fullwidth ? ' uk-container-expand' : '' ?><?= $logo && $logo_padding_remove ? ' uk-padding-remove-left' : '' ?>">
+            <div class="uk-container<?= $full_width ? ' uk-container-expand' : '' ?><?= $logo && $logo_padding_remove ? ' uk-padding-remove-left' : '' ?>">
                 <nav<?= ArrayHelper::attrs($attrs_navbar) ?>>
 
                     <?php if ($logo) : ?>

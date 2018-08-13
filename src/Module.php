@@ -129,7 +129,7 @@ final class Module extends \luya\base\Module implements CoreModuleInterface
         // Merge icons settings
         $this->icons = array_merge([
             'favicon' => '',
-            'touchicon' => ''
+            'touch_icon' => ''
         ], $this->icons);
         // Merge site settings
         $this->site = array_merge([
@@ -137,13 +137,13 @@ final class Module extends \luya\base\Module implements CoreModuleInterface
             'boxed_alignment' => 1,
             'boxed_padding' => '',
             'boxed_media' => '',
-            'toolbar_fullwidth' => '',
+            'toolbar_full_width' => '',
             'toolbar_center' => '',
             'breadcrumbs' => ''
         ], $this->site);
         // Merge logo settings
         $this->logo = array_merge([
-            'logo' => 'center',
+            'logo' => '',
             'text' => '',
             'image' => '',
             'image_width' => '',
@@ -156,7 +156,7 @@ final class Module extends \luya\base\Module implements CoreModuleInterface
         // Merge header settings
         $this->header = array_merge([
             'layout' => 'horizontal-right',
-            'fullwidth' => '',
+            'full_width' => '',
             'logo_center' => '',
             'logo_padding_remove' => '',
             'search' => '',
@@ -182,7 +182,7 @@ final class Module extends \luya\base\Module implements CoreModuleInterface
         // Merge mobile settings
         $this->mobile = array_merge([
             'breakpoint' => 'm',
-            'logo' => '',
+            'logo' => 'center',
             'logo_padding_remove' => '',
             'logo_description' => '',
             'search' => 'right',

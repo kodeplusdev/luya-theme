@@ -21,14 +21,15 @@ Module::setConfig('page', Yii::$app->menu->current);
 Module::setConfig('language', Yii::$app->composition->language);
 // Set website title
 Module::setConfig('title', $this->title);
+// Set icons
+Module::setConfig('icons', 'favicon', Module::getConfig('appUrl') . 'images/logo/0.2x/luya_logo@0.2x.png');
+Module::setConfig('icons', 'touch_icon', Module::getConfig('appUrl') . 'images/logo/0.2x/luya_logo@0.2x.png');
 // Set website logo image
-Module::setConfig('logo', 'image', Module::getConfig('appUrl') . 'images/logo/logo.png');
-// Set website mobile-logo image
-Module::setConfig('mobile', 'image', Module::getConfig('appUrl') . 'images/logo/logo-mobile.png');
-// Set website favicon
-Module::setConfig('icons', 'favicon', Module::getConfig('appUrl') . 'images/logo/favicon.png');
-// Set website touch-icon
-Module::setConfig('icons', 'touchicon', Module::getConfig('appUrl') . 'images/logo/touch-icon.png');
+Module::setConfig('logo', 'image', Module::getConfig('appUrl') . 'images/logo/0.2x/luya_logo@0.2x.png');
+// Set website mobile-logo image and mobile logo settings
+Module::setConfig('mobile', 'logo', 'center');
+Module::setConfig('mobile', 'toggle', 'right');
+Module::setConfig('logo', 'image_mobile', Module::getConfig('appUrl') . 'images/logo/0.2x/luya_logo@0.2x.png');
 
 // Load parser
 $parser = new PageTag();

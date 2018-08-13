@@ -20,7 +20,6 @@ if ($config['image_mobile']) {
 
 // Image
 if ($config['image']) {
-
     $attrs_image['class'] = 'uk-responsive-height';
     $attrs_image['alt'] = $config['text'];
 
@@ -31,9 +30,9 @@ if ($config['image']) {
     }
 
     if ($ext == 'svg') {
-        $logo = HtmlHelper::image($config['image'], array_merge($attrs_image, ['width' => $config['image_width'], 'height' => $config['image_height']]));
+        $logo = HtmlHelper::image($config['image'], array_merge($attrs_image, ['width' => $config['image_mobile_width'], 'height' => $config['image_mobile_height']]));
     } else {
-        $logo = HtmlHelper::image([$config['image'], 'thumbnail' => [$config['image_width'], $config['image_height']], 'srcset' => true], $attrs_image);
+        $logo = HtmlHelper::image([$config['image'], 'thumbnail' => [$config['image_mobile_width'], $config['image_mobile_height']], 'srcset' => true], $attrs_image);
     }
 
 }
@@ -43,14 +42,14 @@ if (!$logo) {
 }
 
 if (!Module::sidebar('mobile')) {
-    // unset($mobile['toggle']);
+    unset($mobile['toggle']);
 }
 
 $mobile['search'] = false; // TODO
 
 ?>
 
-<nav class="uk-navbar-container" uk-navbar>
+<nav class="uk-navbar-container" data-uk-navbar>
 
     <?php if ($mobile['logo'] == 'left' || $mobile['toggle'] == 'left' || $mobile['search'] == 'left') : ?>
     <div class="uk-navbar-left">
@@ -62,8 +61,8 @@ $mobile['search'] = false; // TODO
         <?php endif ?>
 
         <?php if ($mobile['toggle'] == 'left') : ?>
-        <a class="uk-navbar-toggle" href="#avb-mobile" uk-toggle<?= ($mobile['animation'] == 'dropdown') ? '="animation: true"' : '' ?>>
-            <div uk-navbar-toggle-icon></div>
+        <a class="uk-navbar-toggle" href="#avb-mobile" data-uk-toggle<?= ($mobile['animation'] == 'dropdown') ? '="animation: true"' : '' ?>>
+            <div data-uk-navbar-toggle-icon></div>
             <?php if ($mobile['toggle_text']) : ?>
                 <span class="uk-margin-small-left"><?= Module::t('Menu') ?></span>
             <?php endif ?>
@@ -93,11 +92,11 @@ $mobile['search'] = false; // TODO
         <?php endif ?>
 
         <?php if ($mobile['toggle'] == 'right') : ?>
-        <a class="uk-navbar-toggle" href="#avb-mobile" uk-toggle<?= $mobile['animation'] == 'dropdown' ? '="animation: true"' : '' ?>>
+        <a class="uk-navbar-toggle" href="#avb-mobile" data-uk-toggle<?= $mobile['animation'] == 'dropdown' ? '="animation: true"' : '' ?>>
             <?php if ($mobile['toggle_text']) : ?>
                 <span class="uk-margin-small-right"><?= Module::t('Menu') ?></span>
             <?php endif ?>
-            <div uk-navbar-toggle-icon></div>
+            <div data-uk-navbar-toggle-icon></div>
         </a>
         <?php endif ?>
 
@@ -129,10 +128,10 @@ $mobile['search'] = false; // TODO
     <?php
     $mobile['offcanvas'][] = $mobile['offcanvas_mode'];
     ?>
-    <div id="avb-mobile" uk-offcanvas<?= ArrayHelper::attrs($mobile['offcanvas'] ?: []) ?>>
+    <div id="avb-mobile" data-uk-offcanvas<?= ArrayHelper::attrs($mobile['offcanvas'] ?: []) ?>>
         <div<?= ArrayHelper::attrs($attrs_menu) ?>>
 
-            <button class="uk-offcanvas-close" type="button" uk-close></button>
+            <button class="uk-offcanvas-close" type="button" data-uk-close></button>
 
             <?php if ($mobile['menu_center_vertical']) : ?>
             <div class="uk-margin-auto-vertical uk-width-1-1">
@@ -148,9 +147,9 @@ $mobile['search'] = false; // TODO
     </div>
 <?php endif ?>
     <?php if ($mobile['animation'] == 'modal') : ?>
-        <div id="avb-mobile" class="uk-modal-full" uk-modal>
-            <div<?= ArrayHelper::attrs($attrs_menu) ?> uk-height-viewport>
-                <button class="uk-modal-close-full" type="button" uk-close></button>
+        <div id="avb-mobile" class="uk-modal-full" data-uk-modal>
+            <div<?= ArrayHelper::attrs($attrs_menu) ?> data-uk-height-viewport>
+                <button class="uk-modal-close-full" type="button" data-uk-close></button>
                 <?php if ($mobile['menu_center_vertical']) : ?>
                     <div class="uk-margin-auto-vertical uk-width-1-1">
                 <?php endif ?>
