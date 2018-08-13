@@ -1,12 +1,11 @@
 <?php
 
-use trk\theme\Theme;
+use trk\theme\Module;
+use trk\uikit\helpers\ArrayHelper;
 
-/**
- * @var $configs Theme::$defaults
- */
+/* @var $defaults Module::$defaults; */
 
-$header = Theme::get('header');
+$header = Module::getConfig('header');
 
 // Blank
 if (empty($style)) {
@@ -16,7 +15,7 @@ if (empty($style)) {
     }
 
     foreach ($items as $index => $item) {
-        echo Theme::view('templates/module', ['index' => $index, 'configs' => $configs, 'item' => $item, 'position' => $name]);
+        echo Module::render('templates/module', ['index' => $index, 'defaults' => $defaults, 'item' => $item, 'position' => $name]);
     }
 
     if ($center) {
@@ -30,7 +29,7 @@ if (empty($style)) {
 if ($style == 'cell') {
 
     foreach ($items as $index => $item) {
-        echo '<div>' . Theme::view('templates/module', ['index' => $index, 'configs' => $configs, 'item' => $item, 'position' => $name]) . '</div>';
+        echo '<div>' . Module::render('templates/module', ['index' => $index, 'defaults' => $defaults, 'item' => $item, 'position' => $name]) . '</div>';
     }
 
     return;
@@ -46,13 +45,11 @@ if ($style == 'section') {
         if (preg_match('/<!-- (\{.*\}) -->/si', $item['content'], $matches)) {
 
             if ($section) {
-                echo Theme::view('templates/section', ['name' => $name, 'items' => $section]);
+                echo Module::render('templates/section', ['name' => $name, 'items' => $section]);
                 $section = [];
             }
 
-            $content = preg_replace('/<div class="uk-text-danger(.*?)<\/div>/si', '', $item['content']);
-
-            echo str_replace($matches[0], $theme->builder->render($matches[1], is_numeric($item['id']) ? "module-{$item['id']}" : $item['id']), $content);
+            echo preg_replace('/<div class="uk-text-danger(.*?)<\/div>/si', '', $item['content']);
 
         } else {
             $section[] = $item;
@@ -60,14 +57,14 @@ if ($style == 'section') {
     }
 
     if ($section) {
-        echo Theme::view('templates/section', ['name' => $name, 'items' => $section]);
+        echo Module::render('templates/section', ['name' => $name, 'items' => $section]);
     }
 
     return;
 }
 
 // Grid
-$position = isset($element) ? $element : Theme::get($name);
+$position = isset($element) ? $element : Module::getConfig($name);
 $attrs = ['class' => [], 'uk-grid' => true];
 $visibilities = ['xs', 's', 'm', 'l', 'xl'];
 $visible = 4;
@@ -99,17 +96,15 @@ foreach ($items as $index => $item) {
 
     $visible = min(array_search($visibility, $visibilities), $visible);
 
-    $item['content'] = self::view('module', ['index' => $index, 'configs' => $configs, 'item' => $item, 'position' => $name]);
+    $item['content'] = Module::render('module', ['index' => $index, 'defaults' => $defaults, 'item' => $item, 'position' => $name]);
 }
 
 if ($visible) {
     $attrs['class'][] = "uk-visible@{$visibilities[$visible]}";
 }
-
 ?>
-
-<div<?= Theme::attrs($attrs) ?>>
+<div<?= ArrayHelper::attrs($attrs) ?>>
     <?php foreach ($items as $item) : ?>
-        <div<?= Theme::attrs(['class' => $item['cell']]) ?>><?= $item['content'] ?></div>
+        <div<?= ArrayHelper::attrs(['class' => $item['cell']]) ?>><?= $item['content'] ?></div>
     <?php endforeach ?>
 </div>

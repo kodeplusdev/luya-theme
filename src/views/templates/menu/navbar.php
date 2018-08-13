@@ -1,8 +1,11 @@
 <?php
 
-use trk\theme\Theme;
+use trk\theme\Module;
+use trk\uikit\helpers\ArrayHelper;
 
-$navbar = Theme::get('navbar');
+$level = isset($level) ? $level : 1;
+
+$navbar = Module::getConfig('navbar');
 
 // foreach ($items as $item) {
 foreach (array_values($items) as $i => $item) {
@@ -21,10 +24,10 @@ foreach (array_values($items) as $i => $item) {
     $icon_attrs['class'][] = $item['image_class'];
     if (preg_match('/\.(gif|png|jpg|svg)$/i', $icon)) {
         $icon_attrs['class'][] = 'uk-responsive-height uk-margin-small-right';
-        $icon = "<img " . Theme::attrs($icon_attrs) . " src=\"{$icon}\" alt=\"{$item['title']}\">";
+        $icon = "<img " . ArrayHelper::attrs($icon_attrs) . " src=\"{$icon}\" alt=\"{$item['title']}\">";
     } elseif ($icon) {
         $icon_attrs['class'][] = 'uk-margin-small-right';
-        $icon = "<span " . Theme::attrs($icon_attrs) . " uk-icon=\"icon: {$icon}\"></span>";
+        $icon = "<span " . ArrayHelper::attrs($icon_attrs) . " data-uk-icon=\"icon: {$icon}\"></span>";
     }
 
     // Show Icon only
@@ -64,7 +67,7 @@ foreach (array_values($items) as $i => $item) {
             $title = "<div>{$title}<div class=\"uk-navbar-subtitle\">{$subtitle}</div></div>";
         }
 
-        $title = "<a" . Theme::attrs($link) . ">{$icon}{$title}</a>";
+        $title = "<a" . ArrayHelper::attrs($link) . ">{$icon}{$title}</a>";
     }
 
     // Children?
@@ -98,9 +101,9 @@ foreach (array_values($items) as $i => $item) {
 
             $columns = '';
             foreach ($parts as $part) {
-                $columns .= "<div><ul class=\"uk-nav uk-navbar-dropdown-nav\">\n" . Theme::view('templates/menu/navbar', ['items' => $part, 'level' => $level + 1]) . "</ul></div>";
+                $columns .= "<div><ul class=\"uk-nav uk-navbar-dropdown-nav\">\n" . Module::render('templates/menu/navbar', ['items' => $part, 'level' => $level + 1]) . "</ul></div>";
             }
-            // $columns .= "<div><ul class=\"uk-nav uk-navbar-dropdown-nav\">\n" . Theme::view('templates/menu/navbar', ['items' => $parts, 'level' => $level + 1]) . "</ul></div>";
+            // $columns .= "<div><ul class=\"uk-nav uk-navbar-dropdown-nav\">\n" . Module::render('templates/menu/navbar', ['items' => $parts, 'level' => $level + 1]) . "</ul></div>";
             $wrapper = ['class' => ['uk-navbar-dropdown-grid'], 'uk-grid' => true];
 
             if ($count > 1 && !$justify) {
@@ -109,7 +112,7 @@ foreach (array_values($items) as $i => $item) {
 
             $wrapper['class'][] = "uk-child-width-1-{$count}";
 
-            $children = "{$indention}<div" . Theme::attrs($children) . "><div" . Theme::attrs($wrapper) . ">{$columns}</div></div>";
+            $children = "{$indention}<div" . ArrayHelper::attrs($children) . "><div" . ArrayHelper::attrs($wrapper) . ">{$columns}</div></div>";
 
         } else {
 
@@ -117,9 +120,9 @@ foreach (array_values($items) as $i => $item) {
                 $children['class'][] = 'uk-nav-sub';
             }
 
-            $children = "{$indention}<ul" . Theme::attrs($children) . ">\n" . Theme::view('templates/menu/navbar', ['items' => $item['children'], 'level' => $level + 1]) . "</ul>";
+            $children = "{$indention}<ul" . ArrayHelper::attrs($children) . ">\n" . Module::render('templates/menu/navbar', ['items' => $item['children'], 'level' => $level + 1]) . "</ul>";
         }
     }
 
-    echo "{$indention}<li" . Theme::attrs($attrs) . ">{$title}{$children}</li>";
+    echo "{$indention}<li" . ArrayHelper::attrs($attrs) . ">{$title}{$children}</li>";
 }

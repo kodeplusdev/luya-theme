@@ -1,8 +1,9 @@
 <?php
 
-use trk\theme\Theme;
+use trk\theme\Module;
+use trk\uikit\helpers\ArrayHelper;
 
-$sidebar = Theme::get('sidebar');
+$sidebar = Module::getConfig('sidebar');
 $id = 'avb-sidebar';
 $class = ["avb-sidebar uk-width-{$sidebar['width']}@{$sidebar['breakpoint']}"];
 
@@ -12,7 +13,7 @@ if ($sidebar['first']) {
 
 ?>
 
-<aside<?= Theme::attrs(compact('id', 'class')) ?>>
-    <?php echo Theme::sidebar("sidebar:grid-stack") ?>
+<aside<?= ArrayHelper::attrs(compact('id', 'class')) ?>>
+    <?php echo Module::sidebar("sidebar:grid-stack") ?>
 </aside>
 

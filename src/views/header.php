@@ -1,10 +1,11 @@
 <?php
 
-use trk\theme\Theme;
+use trk\theme\Module;
+use trk\uikit\helpers\ArrayHelper;
 
-$site = Theme::get('site');
-$header = Theme::get('header');
-$mobile = Theme::get('mobile');
+$site = Module::getConfig('site');
+$header = Module::getConfig('header');
+$mobile = Module::getConfig('mobile');
 
 // Page
 $attrs_page = [];
@@ -18,23 +19,23 @@ if ($site['layout'] == 'boxed') {
 
     $attrs_page_container['class'][] = 'avb-page-container';
     $attrs_page_container['class'][] = $site['boxed_padding'] ? 'avb-page-container-padding' : '';
-    $attrs_page_container['style'][] = $site['boxed_media'] ? "background-image: url('" . Theme::get('appUrl') . $site['boxed_media'] . "');" : '';
+    $attrs_page_container['style'][] = $site['boxed_media'] ? "background-image: url('" . Module::getConfig('appUrl') . $site['boxed_media'] . "');" : '';
 
 }
 ?>
 <!DOCTYPE html>
-<html lang="<?= Theme::get('language') ?>" dir="ltr">
+<html lang="<?= Module::getConfig('language') ?>" dir="ltr">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <?php if(Theme::get('icons', 'favicon')): ?>
-            <link rel="shortcut icon" href="<?= Theme::get('icons', 'favicon') ?>">
+        <?php if(Module::getConfig('icons', 'favicon')): ?>
+            <link rel="shortcut icon" href="<?= Module::getConfig('icons', 'favicon') ?>">
         <?php endif; ?>
-        <?php if(Theme::get('icons', 'touchicon')): ?>
-            <link rel="apple-touch-icon-precomposed" href="<?= Theme::get('icons', 'touchicon') ?>">
+        <?php if(Module::getConfig('icons', 'touchicon')): ?>
+            <link rel="apple-touch-icon-precomposed" href="<?= Module::getConfig('icons', 'touchicon') ?>">
         <?php endif; ?>
-        <title><?= Theme::get('title') ?></title>
+        <title><?= Module::getConfig('title') ?></title>
         <?php Yii::$app->view->head(); ?>
     </head>
     <body>
@@ -44,36 +45,36 @@ if ($site['layout'] == 'boxed') {
         <?php endif ?>
 
         <?php if ($site['layout'] == 'boxed') : ?>
-        <div<?= Theme::attrs($attrs_page_container) ?>>
+        <div<?= ArrayHelper::attrs($attrs_page_container) ?>>
         <?php endif ?>
 
-        <div<?= Theme::attrs($attrs_page) ?>>
+        <div<?= ArrayHelper::attrs($attrs_page) ?>>
 
             <div class="avb-header-mobile uk-hidden@<?= $mobile['breakpoint'] ?>">
-            <?= Theme::view('templates/header-mobile') ?>
+            <?= Module::render('templates/header-mobile') ?>
             </div>
 
-            <?php if (Theme::sidebar('toolbar-left') || Theme::sidebar('toolbar-right')) : ?>
+            <?php if (Module::sidebar('toolbar-left') || Module::sidebar('toolbar-right')) : ?>
             <div class="avb-toolbar uk-visible@<?= $mobile['breakpoint'] ?>">
                 <div class="uk-container uk-flex uk-flex-middle <?= $site['toolbar_fullwidth'] ? 'uk-container-expand' : '' ?> <?= $site['toolbar_center'] ? 'uk-flex-center' : '' ?>">
 
-                    <?php if (Theme::sidebar('toolbar-left') || ($site['toolbar_center'] && Theme::sidebar('toolbar-right'))) : ?>
+                    <?php if (Module::sidebar('toolbar-left') || ($site['toolbar_center'] && Module::sidebar('toolbar-right'))) : ?>
                     <div>
                         <div class="uk-grid-medium uk-child-width-auto uk-flex-middle" uk-grid="margin: uk-margin-small-top">
-                            <?php if (Theme::sidebar('toolbar-left')) : ?>
-                                <?php echo Theme::sidebar("toolbar-left:cell") ?>
+                            <?php if (Module::sidebar('toolbar-left')) : ?>
+                                <?php echo Module::sidebar("toolbar-left:cell") ?>
                             <?php endif ?>
-                            <?php if ($site['toolbar_center'] && Theme::sidebar('toolbar-right')) : ?>
-                                <?php echo Theme::sidebar("toolbar-right:cell") ?>
+                            <?php if ($site['toolbar_center'] && Module::sidebar('toolbar-right')) : ?>
+                                <?php echo Module::sidebar("toolbar-right:cell") ?>
                             <?php endif ?>
                         </div>
                     </div>
                     <?php endif ?>
 
-                    <?php if (!$site['toolbar_center'] && Theme::sidebar('toolbar-right')) : ?>
+                    <?php if (!$site['toolbar_center'] && Module::sidebar('toolbar-right')) : ?>
                     <div class="uk-margin-auto-left">
                         <div class="uk-grid-medium uk-child-width-auto uk-flex-middle" uk-grid="margin: uk-margin-small-top">
-                            <?php echo Theme::sidebar("toolbar-right:cell") ?>
+                            <?php echo Module::sidebar("toolbar-right:cell") ?>
                         </div>
                     </div>
                     <?php endif ?>
@@ -82,28 +83,28 @@ if ($site['layout'] == 'boxed') {
             </div>
             <?php endif ?>
 
-            <?= Theme::view('templates/header') ?>
+            <?= Module::render('templates/header') ?>
 
-            <?php echo Theme::sidebar("top:section") ?>
+            <?php echo Module::sidebar("top:section") ?>
 
-            <?php if (!Theme::sidebar('content')) : ?>
+            <?php if (!Module::sidebar('content')) : ?>
 
             <div id="avb-main" class="avb-main uk-section uk-section-default" uk-height-viewport="expand: true">
                 <div class="uk-container">
 
                     <?php
                         $grid = ['uk-grid'];
-                        $sidebar = Theme::get('sidebar');
+                        $sidebar = Module::getConfig('sidebar');
                         $grid[] = $sidebar['gutter'] ? "uk-grid-{$sidebar['gutter']}" : '';
                         $grid[] = $sidebar['divider'] ? "uk-grid-divider" : '';
                     ?>
 
-                    <div<?= Theme::attrs(['class' => $grid, 'uk-grid' => true]) ?>>
+                    <div<?= ArrayHelper::attrs(['class' => $grid, 'uk-grid' => true]) ?>>
                         <div class="uk-width-expand@<?= $sidebar['breakpoint'] ?>">
 
                             <?php if ($site['breadcrumbs']) : ?>
                             <div class="uk-margin-medium-bottom">
-                                <?= Theme::view('breadcrumbs') ?>
+                                <?= Module::render('breadcrumbs') ?>
                             </div>
                             <?php endif ?>
 

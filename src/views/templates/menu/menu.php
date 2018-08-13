@@ -1,10 +1,11 @@
 <?php
 
-use trk\theme\Theme;
+use trk\theme\Module;
+use trk\uikit\helpers\ArrayHelper;
 
-$header = Theme::get('header');
-$navbar = Theme::get('navbar');
-$mobile = Theme::get('mobile');
+$header = Module::getConfig('header');
+$navbar = Module::getConfig('navbar');
+$mobile = Module::getConfig('mobile');
 
 $tag_id = isset($tag_id) ? $tag_id : '';
 $position = isset($position) ? $position : '';
@@ -77,6 +78,6 @@ if (strpos($position, 'navbar') === 0) {
 $params['items'] = $items;
 $params['level'] = 1;
 ?>
-<ul<?= Theme::attrs($attrs) ?>>
-    <?= Theme::view("templates/menu/{$type}", $params) ?>
+<ul<?= ArrayHelper::attrs($attrs) ?>>
+    <?= Module::render("templates/menu/{$type}", $params) ?>
 </ul>

@@ -1,4 +1,7 @@
 <?php
+
+// use trk\theme\Module;
+
 $home = Yii::$app->menu->home;
 $items = Yii::$app->menu->current->teardown;
 ?>

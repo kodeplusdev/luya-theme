@@ -1,6 +1,9 @@
 <?php
 
-use trk\theme\Theme;
+use trk\theme\Module;
+use trk\uikit\helpers\ArrayHelper;
+
+$level = isset($level) ? $level : 1;
 
 foreach ($items as $item) {
     /**
@@ -21,7 +24,7 @@ foreach ($items as $item) {
     if (preg_match('/\.(gif|png|jpg|svg)$/i', $icon)) {
         $icon = "<img class=\"uk-responsive-height\" src=\"{$icon}\" alt=\"{$item['title']}\">";
     } elseif ($icon) {
-        $icon = "<span class=\"uk-margin-small-right\" uk-icon=\"icon: {$icon}\"></span>";
+        $icon = "<span class=\"uk-margin-small-right\" data-uk-icon=\"icon: {$icon}\"></span>";
     }
 
     // Show Icon only
@@ -54,7 +57,7 @@ foreach ($items as $item) {
         // Additional Class
         $link['class'] = $item['class'];
 
-        $title = "<a" . Theme::attrs($link) . ">{$icon}{$title}</a>";
+        $title = "<a" . ArrayHelper::attrs($link) . ">{$icon}{$title}</a>";
     }
 
     // Children?
@@ -68,8 +71,8 @@ foreach ($items as $item) {
             $children['class'][] = 'uk-nav-sub';
         }
 
-        $children = "{$indention}<ul" . Theme::attrs($children) . ">\n" . Theme::view('templates/menu/nav', ['items' => $item['children'], 'level' => $level + 1]) . "</ul>";
+        $children = "{$indention}<ul" . ArrayHelper::attrs($children) . ">\n" . Module::render('templates/menu/nav', ['items' => $item['children'], 'level' => $level + 1]) . "</ul>";
     }
 
-    echo "{$indention}<li" . Theme::attrs($attrs) . ">{$title}{$children}</li>";
+    echo "{$indention}<li" . ArrayHelper::attrs($attrs) . ">{$title}{$children}</li>";
 }

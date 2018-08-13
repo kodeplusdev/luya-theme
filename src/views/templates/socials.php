@@ -1,10 +1,11 @@
 <?php
 
-use trk\theme\Theme;
+use trk\theme\Module;
+use trk\uikit\helpers\ArrayHelper;
 
-$header = Theme::get('header');
+$header = Module::getConfig('header');
 
-$links = Theme::get('social_links', [])->splice(0, 5)->filter();
+$links = Module::getConfig('social_links', [])->splice(0, 5)->filter();
 
 $attrs['class'] = $header['social_style'] ? 'uk-icon-button' : 'uk-icon-link';
 $attrs['target'] = $header['social_target'] ? '_blank' : '';
@@ -15,10 +16,10 @@ $attrs_grid['class'][] = 'uk-grid-small uk-flex-inline uk-flex-middle uk-flex-no
 $attrs_grid['uk-grid'] = true;
 ?>
 <?php if (count($links)) : ?>
-    <ul<?= Theme::attrs($attrs_grid) ?>>
+    <ul<?= ArrayHelper::attrs($attrs_grid) ?>>
         <?php foreach ($links as $link) : ?>
         <li>
-            <a<?= Theme::attrs(['href' => $link], $attrs) ?> uk-icon="<?= htmlspecialchars($link, ENT_COMPAT, 'UTF-8') ?>"></a>
+            <a<?= ArrayHelper::attrs(['href' => $link], $attrs) ?> uk-icon="<?= htmlspecialchars($link, ENT_COMPAT, 'UTF-8') ?>"></a>
         </li>
         <?php endforeach ?>
     </ul>

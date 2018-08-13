@@ -1,8 +1,10 @@
 <?php
 
-use trk\theme\Theme;
+use trk\theme\Module;
+use trk\uikit\helpers\HtmlHelper;
+use trk\uikit\helpers\ArrayHelper;
 
-$config = Theme::get('logo');
+$config = Module::getConfig('logo');
 $attrs_link = [];
 $attrs_image = [];
 
@@ -10,7 +12,7 @@ $attrs_image = [];
 $logo = $config['text'];
 
 // Link
-$attrs_link['href'] = Theme::get('appUrl');
+$attrs_link['href'] = Module::getConfig('appUrl');
 $attrs_link['class'][] = isset($class) ? $class : '';
 $attrs_link['class'][] = 'uk-logo';
 
@@ -20,16 +22,16 @@ if ($config['image']) {
     $attrs_image['class'][] = isset($img) ? $img : '';
     $attrs_image['alt'] = $config['text'];
 
-    $ext = Theme::isImage($config['image']);
+    $ext = HtmlHelper::isImage($config['image']);
 
     if ($ext == 'gif') {
         $attrs_image['uk-gif'] = true;
     }
 
     if ($ext == 'svg') {
-        $logo = Theme::image($config['image'], array_merge($attrs_image, ['width' => $config['image_width'], 'height' => $config['image_height']]));
+        $logo = HtmlHelper::image($config['image'], array_merge($attrs_image, ['width' => $config['image_width'], 'height' => $config['image_height']]));
     } else {
-        $logo = Theme::image([$config['image'], 'thumbnail' => [$config['image_width'], $config['image_height']], 'srcset' => true], $attrs_image);
+        $logo = HtmlHelper::image([$config['image'], 'thumbnail' => [$config['image_width'], $config['image_height']], 'srcset' => true], $attrs_image);
     }
 
     // Inverse
@@ -37,16 +39,15 @@ if ($config['image']) {
 
         $attrs_image['class'][] = 'uk-logo-inverse';
 
-        if (Theme::isImage($config['image_inverse']) == 'svg') {
-            $logo .= Theme::image($config['image_inverse'], array_merge($attrs_image, ['width' => $config['image_width'], 'height' => $config['image_height']]));
+        if (HtmlHelper::isImage($config['image_inverse']) == 'svg') {
+            $logo .= HtmlHelper::image($config['image_inverse'], array_merge($attrs_image, ['width' => $config['image_width'], 'height' => $config['image_height']]));
         } else {
-            $logo .= Theme::image([$config['image_inverse'], 'thumbnail' => [$config['image_width'], $config['image_height']], 'srcset' => true], $attrs_image);
+            $logo .= HtmlHelper::image([$config['image_inverse'], 'thumbnail' => [$config['image_width'], $config['image_height']], 'srcset' => true], $attrs_image);
         }
 
     }
 }
 ?>
-
-<a<?= Theme::attrs($attrs_link) ?>>
+<a<?= ArrayHelper::attrs($attrs_link) ?>>
     <?= $logo ?>
 </a>

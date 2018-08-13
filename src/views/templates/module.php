@@ -1,15 +1,16 @@
 <?php
 
-use trk\theme\Theme;
+use trk\theme\Module;
+use trk\uikit\helpers\ArrayHelper;
 
-$header = Theme::get('header');
+$header = Module::getConfig('header');
 
 $class = [];
 $badge = [];
 $title = [];
 
 $layout = $header['layout'];
-$toggle = $position == 'navbar' && (strpos($layout, 'offcanvas') === 0 || $configs['type'] == 'menu') || strpos($layout, 'modal') === 0;
+$toggle = $position == 'navbar' && (strpos($layout, 'offcanvas') === 0 || $defaults['type'] == 'menu') || strpos($layout, 'modal') === 0;
 $alignment = false;
 
 if ($toggle) {
@@ -20,7 +21,7 @@ if ($toggle) {
 }
 
 // determine special positions
-if ($position == 'debug' || $position == 'navbar' && $configs['type'] == 'menu') {
+if ($position == 'debug' || $position == 'navbar' && $defaults['type'] == 'menu') {
 
     if ($alignment) {
         echo "<div class=\"{$alignment}\">";
@@ -37,7 +38,7 @@ if ($position == 'debug' || $position == 'navbar' && $configs['type'] == 'menu')
 
 if ($position == 'navbar') {
 
-    if ($configs['type'] == 'search' && $header['search_style'] == 'modal' && preg_match('/^(horizontal|stacked)/', $layout)) {
+    if ($defaults['type'] == 'search' && $header['search_style'] == 'modal' && preg_match('/^(horizontal|stacked)/', $layout)) {
         $itemClass = 'uk-navbar-toggle';
     } else {
         $itemClass = 'uk-navbar-item';
@@ -67,12 +68,12 @@ if ($position == 'navbar') {
 
 } else {
 
-    $class[] = $configs['style'] ? "uk-card uk-card-body uk-{$configs['style']}" : 'uk-panel';
+    $class[] = $defaults['style'] ? "uk-card uk-card-body uk-{$defaults['style']}" : 'uk-panel';
 
 }
 
 // Class
-if ($cls = (array) $configs['class']) {
+if ($cls = (array) $defaults['class']) {
     $class = array_merge($class, $cls);
 }
 
@@ -80,43 +81,43 @@ if ($cls = (array) $configs['class']) {
 if (!preg_match('/^(toolbar-left|toolbar-right|navbar|header|debug)$/', $position)) {
 
     // Title?
-    if ($configs['show_title']) {
+    if ($defaults['show_title']) {
 
         $title['class'] = [];
 
-        $title_element = $configs['title_tag'];
+        $title_element = $defaults['title_tag'];
 
         // Style?
-        $title['class'][] = $configs['title_style'] ? "uk-{$configs['title_style']}" : '';
-        $title['class'][] = $configs['style'] && !$configs['title_style'] ? "uk-card-title" : '';
+        $title['class'][] = $defaults['title_style'] ? "uk-{$defaults['title_style']}" : '';
+        $title['class'][] = $defaults['style'] && !$defaults['title_style'] ? "uk-card-title" : '';
 
         // Decoration?
-        $title['class'][] = $configs['title_decoration'] ? "uk-heading-{$configs['title_decoration']}" : '';
+        $title['class'][] = $defaults['title_decoration'] ? "uk-heading-{$defaults['title_decoration']}" : '';
 
     }
 
     // Text alignment
-    if ($configs['text_align'] && $configs['text_align'] != 'justify' && $configs['text_align_breakpoint']) {
-        $class[] = "uk-text-{$configs['text_align']}@{$configs['text_align_breakpoint']}";
-        if ($configs['text_align_fallback']) {
-            $class[] = "uk-text-{$configs['text_align_fallback']}";
+    if ($defaults['text_align'] && $defaults['text_align'] != 'justify' && $defaults['text_align_breakpoint']) {
+        $class[] = "uk-text-{$defaults['text_align']}@{$defaults['text_align_breakpoint']}";
+        if ($defaults['text_align_fallback']) {
+            $class[] = "uk-text-{$defaults['text_align_fallback']}";
         }
-    } else if ($configs['text_align']) {
-        $class[] = "uk-text-{$configs['text_align']}";
+    } else if ($defaults['text_align']) {
+        $class[] = "uk-text-{$defaults['text_align']}";
     }
 
     // List
-    if ($configs['is_list']) {
+    if ($defaults['is_list']) {
         $class[] = "avb-child-list";
 
         // List Style?
-        if ($configs['list_style']) {
-            $class[] = "avb-child-list-{$configs['list_style']}";
+        if ($defaults['list_style']) {
+            $class[] = "avb-child-list-{$defaults['list_style']}";
         }
 
         // Link Style?
-        if ($configs['link_style']) {
-            $class[] = "uk-link-{$configs['link_style']}";
+        if ($defaults['link_style']) {
+            $class[] = "uk-link-{$defaults['link_style']}";
         }
     }
 
@@ -126,34 +127,27 @@ if (!preg_match('/^(toolbar-left|toolbar-right|navbar|header|debug)$/', $positio
 if (preg_match('/^(top|bottom|builder-\d+)$/', $position)) {
 
     // Max Width?
-    if ($configs['maxwidth']) {
-        $class[] = "uk-width-{$configs['maxwidth']}";
+    if ($defaults['maxwidth']) {
+        $class[] = "uk-width-{$defaults['maxwidth']}";
 
         // Center?
-        if ($configs['maxwidth_align']) {
+        if ($defaults['maxwidth_align']) {
             $class[] = 'uk-margin-auto';
         }
 
     }
 
 }
-
 ?>
-
-<div<?= Theme::attrs(compact('class'), $configs['attrs']) ?>>
-
+<div<?= ArrayHelper::attrs(compact('class'), $defaults['attrs']) ?>>
     <?php if ($title) : ?>
-    <<?= $title_element ?><?= Theme::attrs($title) ?>>
-
-        <?php if ($configs['title_decoration'] == 'line') : ?>
-            <span><?= $item['title'] ?></span>
-        <?php else: ?>
-            <?= $item['title'] ?>
-        <?php endif ?>
-
-    </<?= $title_element ?>>
+        <<?= $title_element ?><?= ArrayHelper::attrs($title) ?>>
+            <?php if ($defaults['title_decoration'] == 'line') : ?>
+                <span><?= $item['title'] ?></span>
+            <?php else: ?>
+                <?= $item['title'] ?>
+            <?php endif ?>
+        </<?= $title_element ?>>
     <?php endif ?>
-
     <?= $item['content'] ?>
-
 </div>

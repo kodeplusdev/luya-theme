@@ -1,22 +1,22 @@
 <?php
 
-use trk\theme\Theme;
+use trk\theme\Module;
 
-$site = Theme::get('site');
-$header = Theme::get('header');
-$mobile = Theme::get('mobile');
-$footer = Theme::get('footer');
+$site = Module::getConfig('site');
+$header = Module::getConfig('header');
+$mobile = Module::getConfig('mobile');
+$footer = Module::getConfig('footer');
 ?>
-        <?php if (!Theme::sidebar('footer')) : ?>
+        <?php if (!Module::sidebar('footer')) : ?>
                         </div>
-                        <?php if (Theme::sidebar('sidebar')) echo Theme::sidebar('sidebar') ?>
+                        <?php if (Module::sidebar('sidebar')) echo Module::sidebar('sidebar') ?>
                     </div>
 
                 </div>
             </div>
             <?php endif ?>
-            <?= Theme::sidebar("bottom:section") ?>
-            <?= Theme::sidebar('footer') ?>
+            <?= Module::sidebar("bottom:section") ?>
+            <?= Module::sidebar('footer') ?>
         </div>
         <?php if ($site['layout'] == 'boxed') : ?>
         </div>

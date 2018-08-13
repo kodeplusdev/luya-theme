@@ -1,6 +1,8 @@
 <?php
 
-use trk\theme\Theme;
+use trk\theme\Module;
+use trk\uikit\helpers\HtmlHelper;
+use trk\uikit\helpers\ArrayHelper;
 
 $name = isset($name) ? $name : 'section';
 
@@ -16,7 +18,7 @@ $attrs_video = [];
 $attrs_section = [];
 
 // Empty ?
-if (!Theme::sidebar($name) or !$section = Theme::get($name)) {
+if (!Module::sidebar($name) or !$section = Module::getConfig($name)) {
     return;
 }
 
@@ -33,7 +35,7 @@ $attrs_section['class'][] = 'uk-section';
 if ($section['image']) {
 
     if ($section['image_width'] || $section['image_height']) {
-        if (Theme::isImage($section['image']) == 'svg' && !$section['image_size']) {
+        if (HtmlHelper::isImage($section['image']) == 'svg' && !$section['image_size']) {
             $section['image_width'] = $section['image_width'] ? "{$section['image_width']}px" : 'auto';
             $section['image_height'] = $section['image_height'] ? "{$section['image_height']}px" : 'auto';
             $attrs_image['style'][] = "background-size: {$section['image_width']} {$section['image_height']};";
@@ -42,7 +44,7 @@ if ($section['image']) {
         }
     }
 
-    $attrs_image['style'][] = "background-image: url('" . Theme::get('appUrl') . $section['image'] . "');";
+    $attrs_image['style'][] = "background-image: url('" . Module::getConfig('appUrl') . $section['image'] . "');";
 
     // Settings
     $attrs_image['class'][] = 'uk-background-norepeat';
@@ -79,13 +81,13 @@ if ($section['video'] && !$section['image']) {
     $attrs_video['width'] = $section['video_width'];
     $attrs_video['height'] = $section['video_height'];
 
-    if ($iframe = $this->iframeVideo($section['video'])) {
+    if ($iframe = HtmlHelper::iframeVideo($section['video'])) {
 
         $attrs_video['src'] = $iframe;
         $attrs_video['frameborder'] = '0';
         $attrs_video['allowfullscreen'] = true;
 
-        $section['video'] = "<iframe" . Theme::attrs($attrs_video) . "></iframe>";
+        $section['video'] = "<iframe" . ArrayHelper::attrs($attrs_video) . "></iframe>";
 
     } else if ($section['video']) {
 
@@ -96,7 +98,7 @@ if ($section['video'] && !$section['image']) {
         $attrs_video['muted'] = true;
         $attrs_video['playsinline'] = true;
 
-        $section['video'] = "<video" . Theme::attrs($attrs_video) . "></video>";
+        $section['video'] = "<video" . ArrayHelper::attrs($attrs_video) . "></video>";
     }
 
 } else {
@@ -185,27 +187,27 @@ if ($attrs_overlay || $section['video']) {
 
 ?>
 
-<div<?= Theme::attrs(compact('id', 'class', 'style'), $attrs, !$attrs_image ? $attrs_section : []) ?>>
+<div<?= ArrayHelper::attrs(compact('id', 'class', 'style'), $attrs, !$attrs_image ? $attrs_section : []) ?>>
 
     <?php if ($attrs_image) : ?>
-    <div<?= Theme::attrs($attrs_image, $attrs_section) ?>>
+    <div<?= ArrayHelper::attrs($attrs_image, $attrs_section) ?>>
     <?php endif ?>
 
         <?= $section['video'] ?>
 
         <?php if ($attrs_overlay) : ?>
-        <div class="uk-position-cover"<?= Theme::attrs($attrs_overlay) ?>></div>
+        <div class="uk-position-cover"<?= ArrayHelper::attrs($attrs_overlay) ?>></div>
         <?php endif ?>
 
         <?php if ($attrs_viewport_height) : ?>
-        <div<?= Theme::attrs($attrs_viewport_height) ?>>
+        <div<?= ArrayHelper::attrs($attrs_viewport_height) ?>>
         <?php endif ?>
 
             <?php if ($attrs_container) : ?>
-            <div<?= Theme::attrs($attrs_container) ?>>
+            <div<?= ArrayHelper::attrs($attrs_container) ?>>
             <?php endif ?>
 
-                <?= Theme::view('templates/position', ['style' => 'grid']) ?>
+                <?= Module::render('templates/position', ['style' => 'grid']) ?>
 
             <?php if ($attrs_container) : ?>
             </div>

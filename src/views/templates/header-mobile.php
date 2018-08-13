@@ -1,10 +1,11 @@
 <?php
 
-use trk\theme\Theme;
 use trk\theme\Module;
+use trk\uikit\helpers\HtmlHelper;
+use trk\uikit\helpers\ArrayHelper;
 
-$config = Theme::get('logo');
-$mobile = Theme::get('mobile');
+$config = Module::getConfig('logo');
+$mobile = Module::getConfig('mobile');
 $attrs_image = [];
 
 // Logo Text
@@ -23,16 +24,16 @@ if ($config['image']) {
     $attrs_image['class'] = 'uk-responsive-height';
     $attrs_image['alt'] = $config['text'];
 
-    $ext = Theme::isImage($config['image']);
+    $ext = HtmlHelper::isImage($config['image']);
 
     if ($ext == 'gif') {
         $attrs_image['uk-gif'] = true;
     }
 
     if ($ext == 'svg') {
-        $logo = Theme::image($config['image'], array_merge($attrs_image, ['width' => $config['image_width'], 'height' => $config['image_height']]));
+        $logo = HtmlHelper::image($config['image'], array_merge($attrs_image, ['width' => $config['image_width'], 'height' => $config['image_height']]));
     } else {
-        $logo = Theme::image([$config['image'], 'thumbnail' => [$config['image_width'], $config['image_height']], 'srcset' => true], $attrs_image);
+        $logo = HtmlHelper::image([$config['image'], 'thumbnail' => [$config['image_width'], $config['image_height']], 'srcset' => true], $attrs_image);
     }
 
 }
@@ -41,7 +42,7 @@ if (!$logo) {
     unset($mobile['logo']);
 }
 
-if (!Theme::sidebar('mobile')) {
+if (!Module::sidebar('mobile')) {
     // unset($mobile['toggle']);
 }
 
@@ -55,7 +56,7 @@ $mobile['search'] = false; // TODO
     <div class="uk-navbar-left">
 
         <?php if ($mobile['logo'] == 'left') : ?>
-        <a class="uk-navbar-item uk-logo<?= $mobile['logo_padding_remove'] ? ' uk-padding-remove-left' : '' ?>" href="<?= Theme::get('appUrl') ?>">
+        <a class="uk-navbar-item uk-logo<?= $mobile['logo_padding_remove'] ? ' uk-padding-remove-left' : '' ?>" href="<?= Module::getConfig('appUrl') ?>">
             <?= $logo ?>
         </a>
         <?php endif ?>
@@ -78,7 +79,7 @@ $mobile['search'] = false; // TODO
 
     <?php if ($mobile['logo'] == 'center') : ?>
     <div class="uk-navbar-center">
-        <a class="uk-navbar-item uk-logo" href="<?= Theme::get('appUrl') ?>">
+        <a class="uk-navbar-item uk-logo" href="<?= Module::getConfig('appUrl') ?>">
             <?= $logo ?>
         </a>
     </div>
@@ -101,7 +102,7 @@ $mobile['search'] = false; // TODO
         <?php endif ?>
 
         <?php if ($mobile['logo'] == 'right') : ?>
-        <a class="uk-navbar-item uk-logo<?= $mobile['logo_padding_remove'] ? ' uk-padding-remove-right' : '' ?>" href="<?= Theme::get('appUrl') ?>">
+        <a class="uk-navbar-item uk-logo<?= $mobile['logo_padding_remove'] ? ' uk-padding-remove-right' : '' ?>" href="<?= Module::getConfig('appUrl') ?>">
             <?= $logo ?>
         </a>
         <?php endif ?>
@@ -111,7 +112,7 @@ $mobile['search'] = false; // TODO
 
 </nav>
 
-<?php if (Theme::sidebar('mobile')) :
+<?php if (Module::sidebar('mobile')) :
 
     $attrs_menu = [];
     $attrs_menu['class'][] = $mobile['animation'] == 'offcanvas' ? 'uk-offcanvas-bar' : '';
@@ -128,8 +129,8 @@ $mobile['search'] = false; // TODO
     <?php
     $mobile['offcanvas'][] = $mobile['offcanvas_mode'];
     ?>
-    <div id="avb-mobile" uk-offcanvas<?= Theme::attrs($mobile['offcanvas'] ?: []) ?>>
-        <div<?= Theme::attrs($attrs_menu) ?>>
+    <div id="avb-mobile" uk-offcanvas<?= ArrayHelper::attrs($mobile['offcanvas'] ?: []) ?>>
+        <div<?= ArrayHelper::attrs($attrs_menu) ?>>
 
             <button class="uk-offcanvas-close" type="button" uk-close></button>
 
@@ -137,7 +138,7 @@ $mobile['search'] = false; // TODO
             <div class="uk-margin-auto-vertical uk-width-1-1">
                 <?php endif ?>
 
-                <?php echo Theme::sidebar("mobile:grid-stack") ?>
+                <?php echo Module::sidebar("mobile:grid-stack") ?>
 
                 <?php if ($mobile['menu_center_vertical']) : ?>
             </div>
@@ -146,37 +147,27 @@ $mobile['search'] = false; // TODO
         </div>
     </div>
 <?php endif ?>
-
     <?php if ($mobile['animation'] == 'modal') : ?>
-    <div id="avb-mobile" class="uk-modal-full" uk-modal>
-        <div<?= Theme::attrs($attrs_menu) ?> uk-height-viewport>
-
-            <button class="uk-modal-close-full" type="button" uk-close></button>
-
-            <?php if ($mobile['menu_center_vertical']) : ?>
-            <div class="uk-margin-auto-vertical uk-width-1-1">
-                <?php endif ?>
-
-                <?php echo Theme::sidebar("mobile:grid-stack") ?>
-
+        <div id="avb-mobile" class="uk-modal-full" uk-modal>
+            <div<?= ArrayHelper::attrs($attrs_menu) ?> uk-height-viewport>
+                <button class="uk-modal-close-full" type="button" uk-close></button>
                 <?php if ($mobile['menu_center_vertical']) : ?>
+                    <div class="uk-margin-auto-vertical uk-width-1-1">
+                <?php endif ?>
+                    <?php echo Module::sidebar("mobile:grid-stack") ?>
+                <?php if ($mobile['menu_center_vertical']) : ?>
+                    </div>
+                <?php endif ?>
             </div>
-        <?php endif ?>
-
         </div>
-    </div>
-<?php endif ?>
-
+    <?php endif ?>
     <?php if ($mobile['animation'] == 'dropdown') : ?>
-    <div class="uk-position-relative uk-position-z-index">
-        <div id="avb-mobile" class="<?= $mobile['dropdown'] == 'slide' ? 'uk-position-top' : '' ?>" hidden>
-            <div<?= Theme::attrs($attrs_menu) ?>>
-
-                <?php echo Theme::sidebar("mobile:grid-stack") ?>
-
+        <div class="uk-position-relative uk-position-z-index">
+            <div id="avb-mobile" class="<?= $mobile['dropdown'] == 'slide' ? 'uk-position-top' : '' ?>" hidden>
+                <div<?= ArrayHelper::attrs($attrs_menu) ?>>
+                    <?php echo Module::sidebar("mobile:grid-stack") ?>
+                </div>
             </div>
         </div>
-    </div>
-<?php endif ?>
-
+    <?php endif ?>
 <?php endif ?>

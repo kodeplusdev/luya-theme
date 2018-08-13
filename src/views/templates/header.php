@@ -1,11 +1,12 @@
 <?php
 
-use trk\theme\Theme;
+use trk\theme\Module;
+use trk\uikit\helpers\ArrayHelper;
 
-$header = Theme::get('header');
-$logo = Theme::get('logo');
-$mobile = Theme::get('mobile');
-$navbar = Theme::get('navbar');
+$header = Module::getConfig('header');
+$logo = Module::getConfig('logo');
+$mobile = Module::getConfig('mobile');
+$navbar = Module::getConfig('navbar');
 
 // Options
 $layout = $header['layout'];
@@ -60,7 +61,7 @@ if ($sticky = $navbar['sticky']) {
 
 ?>
 
-<div<?= Theme::attrs(['class' => $class], $attrs) ?>>
+<div<?= ArrayHelper::attrs(['class' => $class], $attrs) ?>>
 
 <?php
 
@@ -71,40 +72,40 @@ if ($sticky = $navbar['sticky']) {
 if (in_array($layout, ['horizontal-left', 'horizontal-center', 'horizontal-right'])) : ?>
 
     <?php if ($sticky) : ?>
-    <div<?= Theme::attrs($attrs_sticky) ?>>
+    <div<?= ArrayHelper::attrs($attrs_sticky) ?>>
     <?php endif ?>
 
-        <div<?= Theme::attrs($container) ?>>
+        <div<?= ArrayHelper::attrs($container) ?>>
 
             <div class="uk-container<?= $fullwidth ? ' uk-container-expand' : '' ?><?= $logo && $logo_padding_remove ? ' uk-padding-remove-left' : '' ?>">
-                <nav<?= Theme::attrs($attrs_navbar) ?>>
+                <nav<?= ArrayHelper::attrs($attrs_navbar) ?>>
 
-                    <?php if ($logo || $layout == 'horizontal-left' && Theme::sidebar('navbar')) : ?>
+                    <?php if ($logo || $layout == 'horizontal-left' && Module::sidebar('navbar')) : ?>
                     <div class="uk-navbar-left">
 
-                        <?= $logo ? $this->render('header-logo', ['class' => 'uk-navbar-item', 'img' => 'uk-responsive-height']) : '' ?>
+                        <?= $logo ? Module::render('templates/header-logo', ['class' => 'uk-navbar-item', 'img' => 'uk-responsive-height']) : '' ?>
 
                         <?php if ($layout == 'horizontal-left') : ?>
-                            <?php echo Theme::sidebar("navbar") ?>
+                            <?php echo Module::sidebar("navbar") ?>
                         <?php endif ?>
 
                     </div>
                     <?php endif ?>
 
-                    <?php if ($layout == 'horizontal-center' && Theme::sidebar('navbar')) : ?>
+                    <?php if ($layout == 'horizontal-center' && Module::sidebar('navbar')) : ?>
                     <div class="uk-navbar-center">
-                        <?php echo Theme::sidebar("navbar") ?>
+                        <?php echo Module::sidebar("navbar") ?>
                     </div>
                     <?php endif ?>
 
-                    <?php if (Theme::sidebar('header') || $layout == 'horizontal-right' && Theme::sidebar('navbar')) : ?>
+                    <?php if (Module::sidebar('header') || $layout == 'horizontal-right' && Module::sidebar('navbar')) : ?>
                     <div class="uk-navbar-right">
 
-                        <?php if ($layout == 'horizontal-right' && Theme::sidebar('navbar')) : ?>
-                            <?php echo Theme::sidebar("navbar") ?>
+                        <?php if ($layout == 'horizontal-right' && Module::sidebar('navbar')) : ?>
+                            <?php echo Module::sidebar("navbar") ?>
                         <?php endif ?>
 
-                        <?php echo Theme::sidebar("header") ?>
+                        <?php echo Module::sidebar("header") ?>
 
                     </div>
                     <?php endif ?>
@@ -128,19 +129,19 @@ if (in_array($layout, ['horizontal-left', 'horizontal-center', 'horizontal-right
 
 if (in_array($layout, ['stacked-center-a', 'stacked-center-b', 'stacked-center-split'])) : ?>
 
-    <?php if ($logo && $layout != 'stacked-center-split' || $layout == 'stacked-center-a' && Theme::sidebar('header')) : ?>
+    <?php if ($logo && $layout != 'stacked-center-split' || $layout == 'stacked-center-a' && Module::sidebar('header')) : ?>
     <div class="avb-headerbar-top">
         <div class="uk-container<?= $fullwidth ? ' uk-container-expand' : '' ?>">
 
             <?php if ($logo) : ?>
             <div class="uk-text-center">
-                <?= $this->render('header-logo') ?>
+                <?= Module::render('templates/header-logo') ?>
             </div>
             <?php endif ?>
 
-            <?php if ($layout == 'stacked-center-a' && Theme::sidebar('header')) : ?>
+            <?php if ($layout == 'stacked-center-a' && Module::sidebar('header')) : ?>
             <div class="avb-headerbar-stacked uk-grid-medium uk-child-width-auto uk-flex-center uk-flex-middle" uk-grid>
-                <?php echo Theme::sidebar("header:cell") ?>
+                <?php echo Module::sidebar("header:cell") ?>
             </div>
             <?php endif ?>
 
@@ -148,33 +149,33 @@ if (in_array($layout, ['stacked-center-a', 'stacked-center-b', 'stacked-center-s
     </div>
     <?php endif ?>
 
-    <?php if (Theme::sidebar('navbar')) : ?>
+    <?php if (Module::sidebar('navbar')) : ?>
 
         <?php if ($sticky) : ?>
-        <div<?= Theme::attrs($attrs_sticky) ?>>
+        <div<?= ArrayHelper::attrs($attrs_sticky) ?>>
         <?php endif ?>
 
-            <div<?= Theme::attrs($container) ?>>
+            <div<?= ArrayHelper::attrs($container) ?>>
 
                 <div class="uk-container<?= $fullwidth ? ' uk-container-expand' : '' ?>">
-                    <nav<?= Theme::attrs($attrs_navbar) ?>>
+                    <nav<?= ArrayHelper::attrs($attrs_navbar) ?>>
 
                         <div class="uk-navbar-center">
 
                             <?php if ($layout == 'stacked-center-split') : ?>
 
                                 <div class="uk-navbar-center-left"><div>
-                                    <?php echo Theme::sidebar("navbar-split") ?>
+                                    <?php echo Module::sidebar("navbar-split") ?>
                                 </div></div>
 
-                                <?= $this->render('header-logo', ['class' => 'uk-navbar-item', 'img' => 'uk-responsive-height']); ?>
+                                <?= Module::render('templates/header-logo', ['class' => 'uk-navbar-item', 'img' => 'uk-responsive-height']); ?>
 
                                 <div class="uk-navbar-center-right"><div>
-                                    <?php echo Theme::sidebar("navbar") ?>
+                                    <?php echo Module::sidebar("navbar") ?>
                                 </div></div>
 
                             <?php else: ?>
-                                <?php echo Theme::sidebar("navbar") ?>
+                                <?php echo Module::sidebar("navbar") ?>
                             <?php endif ?>
 
                         </div>
@@ -190,11 +191,11 @@ if (in_array($layout, ['stacked-center-a', 'stacked-center-b', 'stacked-center-s
 
     <?php endif ?>
 
-    <?php if (in_array($layout, ['stacked-center-b', 'stacked-center-split']) && Theme::sidebar('header')) : ?>
+    <?php if (in_array($layout, ['stacked-center-b', 'stacked-center-split']) && Module::sidebar('header')) : ?>
     <div class="avb-headerbar-bottom">
         <div class="uk-container<?= $fullwidth ? ' uk-container-expand' : '' ?>">
             <div class="uk-grid-medium uk-child-width-auto uk-flex-center uk-flex-middle" uk-grid>
-                <?php echo Theme::sidebar("header:cell") ?>
+                <?php echo Module::sidebar("header:cell") ?>
             </div>
         </div>
     </div>
@@ -210,16 +211,16 @@ if (in_array($layout, ['stacked-center-a', 'stacked-center-b', 'stacked-center-s
 
 if ($layout == 'stacked-left-a' || $layout == 'stacked-left-b') : ?>
 
-    <?php if ($logo || Theme::sidebar('header')) : ?>
+    <?php if ($logo || Module::sidebar('header')) : ?>
     <div class="avb-headerbar-top">
         <div class="uk-container<?= $fullwidth ? ' uk-container-expand' : '' ?> uk-flex uk-flex-middle">
 
-            <?= $logo ? $this->render('header-logo') : '' ?>
+            <?= $logo ? Module::render('templates/header-logo') : '' ?>
 
-            <?php if (Theme::sidebar('header')) : ?>
+            <?php if (Module::sidebar('header')) : ?>
             <div class="uk-margin-auto-left">
                 <div class="uk-grid-medium uk-child-width-auto uk-flex-middle" uk-grid>
-                    <?php echo Theme::sidebar("header:cell") ?>
+                    <?php echo Module::sidebar("header:cell") ?>
                 </div>
             </div>
             <?php endif ?>
@@ -228,26 +229,26 @@ if ($layout == 'stacked-left-a' || $layout == 'stacked-left-b') : ?>
     </div>
     <?php endif ?>
 
-    <?php if (Theme::sidebar('navbar')) : ?>
+    <?php if (Module::sidebar('navbar')) : ?>
 
         <?php if ($sticky) : ?>
-        <div<?= Theme::attrs($attrs_sticky) ?>>
+        <div<?= ArrayHelper::attrs($attrs_sticky) ?>>
         <?php endif ?>
 
-            <div<?= Theme::attrs($container) ?>>
+            <div<?= ArrayHelper::attrs($container) ?>>
 
                 <div class="uk-container<?= $fullwidth ? ' uk-container-expand' : '' ?>">
-                    <nav<?= Theme::attrs($attrs_navbar) ?>>
+                    <nav<?= ArrayHelper::attrs($attrs_navbar) ?>>
 
                         <?php if ($layout == 'stacked-left-a') : ?>
                         <div class="uk-navbar-left">
-                            <?php echo Theme::sidebar("navbar") ?>
+                            <?php echo Module::sidebar("navbar") ?>
                         </div>
                         <?php endif ?>
 
                         <?php if ($layout == 'stacked-left-b') : ?>
                         <div class="uk-navbar-left uk-flex-auto">
-                            <?php echo Theme::sidebar("navbar") ?>
+                            <?php echo Module::sidebar("navbar") ?>
                         </div>
                         <?php endif ?>
 
@@ -285,25 +286,25 @@ if (preg_match('/^(offcanvas|modal)/', $layout)) :
     ?>
 
     <?php if ($sticky) : ?>
-    <div<?= Theme::attrs($attrs_sticky) ?>>
+    <div<?= ArrayHelper::attrs($attrs_sticky) ?>>
     <?php endif ?>
 
-        <div<?= Theme::attrs($container) ?>>
+        <div<?= ArrayHelper::attrs($container) ?>>
             <div class="uk-container<?= $fullwidth ? ' uk-container-expand' : '' ?><?= $logo && $logo_padding_remove ? ' uk-padding-remove-left' : '' ?>">
-                <nav<?= Theme::attrs($attrs_navbar) ?>>
+                <nav<?= ArrayHelper::attrs($attrs_navbar) ?>>
 
                     <?php if ($logo) : ?>
                     <div class="<?= $logo_center ? 'uk-navbar-center' : 'uk-navbar-left' ?>">
-                        <?= $this->render('header-logo', ['class' => 'uk-navbar-item', 'img' => 'uk-responsive-height']) ?>
+                        <?= Module::render('templates/header-logo', ['class' => 'uk-navbar-item', 'img' => 'uk-responsive-height']) ?>
                     </div>
                     <?php endif ?>
 
-                    <?php if (Theme::sidebar('header') || Theme::sidebar('navbar')) : ?>
+                    <?php if (Module::sidebar('header') || Module::sidebar('navbar')) : ?>
                     <div class="uk-navbar-right">
 
-                        <?php echo Theme::sidebar("header") ?>
+                        <?php echo Module::sidebar("header") ?>
 
-                        <?php if (Theme::sidebar('navbar')) : ?>
+                        <?php if (Module::sidebar('navbar')) : ?>
 
                             <a class="uk-navbar-toggle" href="#avb-navbar" uk-toggle>
                                 <?php if ($navbar['toggle_text']) : ?>
@@ -313,12 +314,12 @@ if (preg_match('/^(offcanvas|modal)/', $layout)) :
                             </a>
 
                             <?php if (strpos($layout, 'offcanvas') === 0) : ?>
-                            <div id="avb-navbar" uk-offcanvas="flip: true"<?= Theme::attrs($navbar['offcanvas'] ?: []) ?>>
-                                <div<?= Theme::attrs($attrs_toggle) ?>>
+                            <div id="avb-navbar" uk-offcanvas="flip: true"<?= ArrayHelper::attrs($navbar['offcanvas'] ?: []) ?>>
+                                <div<?= ArrayHelper::attrs($attrs_toggle) ?>>
 
                                     <button class="uk-offcanvas-close uk-close-large uk-margin-remove-adjacent" type="button" uk-close></button>
 
-                                    <?php echo Theme::sidebar("navbar") ?>
+                                    <?php echo Module::sidebar("navbar") ?>
 
                                 </div>
                             </div>
@@ -330,8 +331,8 @@ if (preg_match('/^(offcanvas|modal)/', $layout)) :
 
                                     <button class="uk-modal-close-full uk-close-large uk-margin-remove-adjacent" type="button" uk-close></button>
 
-                                    <div <?= Theme::attrs($attrs_toggle) ?> uk-height-viewport>
-                                        <?php echo Theme::sidebar("navbar") ?>
+                                    <div <?= ArrayHelper::attrs($attrs_toggle) ?> uk-height-viewport>
+                                        <?php echo Module::sidebar("navbar") ?>
                                     </div>
 
                                 </div>

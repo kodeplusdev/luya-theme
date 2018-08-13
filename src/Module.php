@@ -2,7 +2,9 @@
 
 namespace trk\theme;
 
+use Yii;
 use luya\base\CoreModuleInterface;
+use trk\uikit\helpers\ArrayHelper;
 
 /**
  * Theme Module
@@ -11,6 +13,57 @@ use luya\base\CoreModuleInterface;
  */
 final class Module extends \luya\base\Module implements CoreModuleInterface
 {
+    /**
+     * @inheritdoc
+     */
+    static $configs = [
+        'title' => '',
+        'appUrl' => '',
+        'page' => '',
+        'language' => '',
+        'icons' => [],
+        'site' => [],
+        'logo' => [],
+        'header' => [],
+        'navbar' => [],
+        'mobile' => [],
+        'top' => [],
+        'sidebar' => [],
+        'bottom' => [],
+        'footer' => []
+    ];
+
+    /**
+     * @inheritdoc
+     */
+    static $sidebars = [];
+
+    /**
+     * @inheritdoc
+     */
+    private static $defaults = [
+        'type' => '',
+        'attrs' => [],
+        'class' => '',
+        'show_title' => true,
+        'title_tag' => 'h3',
+        'is_list' => true,
+        'visibility' => '', // empty|s|m|l|xl
+        'style' => '', // empty|card-default|card-primary|card-secondary|card-hover
+        'title_style' => '', // empty|heading-primary|h1|h2|h3|h4|h5|h6
+        'title_decoration' => '', // empty|divider|bullet|line
+        'text_align' => '', // empty|left|center|right|justify
+        'text_align_breakpoint' => '', // empty|s|m|l|xl
+        'text_align_fallback' => '', // empty|left|center|right|justify,
+        'width' => '', // empty|1-5|1-4|1-3|2-5|1-2|1-1'
+        'maxwidth' => '', // empty|small|medium|large|xlarge|xxlarge'
+        'maxwidth_align' => false, // false|true
+        'list_style' => '', // empty|divider,
+        'link_style' => '', // empty|muted,
+        'menu_style' => 'nav', // nav|subnav
+        'items' => []
+    ];
+
     /**
      * @inheritdoc
      */
@@ -219,6 +272,19 @@ final class Module extends \luya\base\Module implements CoreModuleInterface
         $this->footer = array_merge([
             'content' => ''
         ], $this->footer);
+
+        self::$configs = ArrayHelper::merge(self::$configs, [
+            'icons' => $this->icons,
+            'site' => $this->site,
+            'logo' => $this->logo,
+            'header' => $this->header,
+            'navbar' => $this->navbar,
+            'mobile' => $this->mobile,
+            'top' => $this->top,
+            'sidebar' => $this->sidebar,
+            'bottom' => $this->bottom,
+            'footer' => $this->footer
+        ]);
     }
     
     /**
@@ -232,6 +298,128 @@ final class Module extends \luya\base\Module implements CoreModuleInterface
     {
         return parent::baseT('theme', $message, $params);
     }
+
+    // ------------------------------------------------------------------------
+
+    /**
+     * Set config value
+     *
+     * @param string $config
+     * @param string $element
+     * @param string $value
+     */
+    public static function setConfig($config = "", $element = "", $value = "")
+    {
+        if($config)
+        {
+            if($element && $value)
+            {
+                self::$configs[$config][$element] = $value;
+            }
+            else
+            {
+                self::$configs[$config] = $element;
+            }
+        }
+    }
+
+    // ------------------------------------------------------------------------
+
+    /**
+     * Get & Set sidebar content
+     *
+     * @param string $sidebar
+     * @param string $content
+     * @return bool|mixed
+     */
+    public static function sidebar($sidebar = "", $content = "")
+    {
+        $explode = explode(':', $sidebar);
+        $style = "";
+        if(count($explode) > 1) {
+            $sidebar = $explode[0];
+            $style = $explode[1];
+        }
+
+        if($content) {
+            if(is_array($content)) {
+                $defaults = array_merge(self::$defaults, $content);
+                $items = $defaults['items'];
+                unset($defaults['items']);
+                // Set parameters
+                $params = [];
+                $params['style'] = $style;
+                $params['defaults'] = $defaults;
+                $params['items'] = $items;
+                $params['name'] = $sidebar;
+                $params['configs'] = self::$configs;
+                $params['sidebars'] = self::$sidebars;
+                // Get content
+                $content = self::view('templates/position', $params);
+            }
+            self::$sidebars[$sidebar] = $content;
+
+            return true;
+        }
+        else
+        {
+            return Module::element($sidebar, self::$sidebars, '');
+        }
+    }
+
+    // ------------------------------------------------------------------------
+
+    /**
+     * Get config as array or config element
+     *
+     * @param string $config
+     * @param string $element
+     * @return mixed
+     */
+    public static function getConfig($config = "", $element = "")
+    {
+        if($element)
+        {
+            return Module::element($element, Module::element($config, self::$configs, []), "");
+        }
+        else
+        {
+            return Module::element($config, self::$configs, []);
+        }
+    }
+
+    // ------------------------------------------------------------------------
+
+    /**
+     * Render view file
+     *
+     * @param string $template
+     * @param array $params
+     * @return mixed|string
+     */
+    public static function render($template = "", $params = [])
+    {
+        $explode = explode(':', $template);
+
+        if(count($explode)) $template = $explode[0];
+
+        if(!$template) $template = 'index';
+
+        return Yii::$app->view->renderFile(self::viewPath($template), $params);
+    }
+
+    // ------------------------------------------------------------------------
+
+    /**
+     * @inheritdoc
+     */
+    public static function viewPath($template = "")
+    {
+        $template = $template ? $template . '.php' : '';
+        return  dirname(__DIR__) . '/src/views/' . $template;
+    }
+
+    // ------------------------------------------------------------------------
 
     /**
      * Element

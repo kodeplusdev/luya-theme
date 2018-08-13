@@ -1,6 +1,6 @@
 <?php
 
-use trk\theme\Theme;
+use trk\uikit\helpers\ArrayHelper;
 
 foreach ($items as $item) {
 
@@ -26,7 +26,7 @@ foreach ($items as $item) {
     if (preg_match('/\.(gif|png|jpg|svg)$/i', $icon)) {
         $icon = "<img class=\"uk-responsive-height\" src=\"{$icon}\" alt=\"{$item->title}\">";
     } elseif ($icon) {
-        $icon = "<span class=\"uk-margin-small-right\" uk-icon=\"icon: {$icon}\"></span>";
+        $icon = "<span class=\"uk-margin-small-right\" data-uk-icon=\"icon: {$icon}\"></span>";
     }
 
     // Show Icon only
@@ -45,5 +45,5 @@ foreach ($items as $item) {
         $subtitle = "<div>{$subtitle}</div>";
     }
 
-    echo "<li" . Theme::attrs($attrs) . "><a" . Theme::attrs($link) . ">{$icon}{$title}{$subtitle}</a></li>";
+    echo "<li" . ArrayHelper::attrs($attrs) . "><a" . ArrayHelper::attrs($link) . ">{$icon}{$title}{$subtitle}</a></li>";
 }
