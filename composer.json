@@ -16,8 +16,8 @@
         "issues" : "https://github.com/trk/luya-theme/issues"
     },
     "require" : {
-        "luyadev/luya-module-cms": "dev-master",
-        "luyadev/luya-module-admin": "dev-master",
+        "luyadev/luya-module-cms": "*",
+        "luyadev/luya-module-admin": "*",
         "trk/luya-uikit": "dev-master"
     },
     "autoload" : {
